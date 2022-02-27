@@ -1,3 +1,4 @@
+@Library("app-lib@main") _
 pipeline {
   agent any
   tools {
@@ -23,10 +24,8 @@ pipeline {
     stage("Deploy to Tomcat") {
       steps {
         sshagent(['tomcat-dev']) {
-          //copy war file to tomcat
-          sh "scp -o StrictHostKeyChecking=no target/*.war ec2-user@172.31.33.131:/opt/tomcat8/webapps/app.war"
-          sh "ssh ec2-user@172.31.33.131 /opt/tomcat8/bin/shutdown.sh"
-          sh "ssh ec2-user@172.31.33.131 /opt/tomcat8/bin/startup.sh"
+            
+          tomcatDeploy(["13.234.136.143","13.234.136.143","13.234.136.143"],"ec2-user","tomcat-dev")    
         }
       }
     }
